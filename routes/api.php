@@ -18,9 +18,14 @@ Route::group(['prefix' => 'v1'], function() {
     Route::post('/users', [UserController::class, 'create_new_user']);
     Route::delete('/users', [UserController::class, 'delete_user']);
         
-    Route::group(['prefix' => 'auth', 'middleware' => 'api'], function() {
-        Route::get("/me", [ AuthController::class, 'me']);
+    
+    Route::group(['prefix' => 'auth'], function() {
         Route::post('/login', [ AuthController::class, 'login' ]);
+        Route::post('/create-account', [ AuthController::class, 'create_account' ]);
+    });
+    
+    Route::group(['middleware' => 'api'], function() {
+        Route::get("/me", [ AuthController::class, 'me']);
     });
 })->middleware(ApiSecurity::class);
 
